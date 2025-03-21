@@ -108,18 +108,20 @@ const Header = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5 }}
-              className="h-16 md:h-20 w-16 md:w-20 rounded-full bg-gray-200 flex items-center justify-center mr-2"
+              className="h-12 md:h-20 w-12 md:w-20 rounded-full bg-gray-200 flex items-center justify-center mr-2 overflow-hidden"
             >
-              {/* Replace with actual logo */}
-              <span className="text-[#EC0729] font-bold text-xl">
-                <img src={imageLogo} alt="CIVTE Logo" className="h-full" />
-              </span>
+              {/* Logo with fixed aspect ratio */}
+              <img
+                src={imageLogo}
+                alt="CIVTE Logo"
+                className="w-10 h-10 md:w-16 md:h-16 object-contain"
+              />
             </motion.div>
             <div className="ml-2">
-              <h1 className="text-lg md:text-xl font-bold text-[#EC0729]">
+              <h1 className="text-sm md:text-xl font-bold text-[#EC0729] leading-tight">
                 Central Institute of Vocational
               </h1>
-              <h2 className="text-lg md:text-xl font-bold text-[#EC0729]">
+              <h2 className="text-sm md:text-xl font-bold text-[#EC0729] leading-tight">
                 & Technical Education
               </h2>
               <p className="text-xs text-gray-500">Government Recognized</p>
