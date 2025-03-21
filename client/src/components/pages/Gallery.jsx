@@ -3,18 +3,18 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 // Import dummy images (replace with actual images in production)
-import image1 from "../../assets/images/gallery/image1.jpg";
-import image2 from "../../assets/images/gallery/image2.jpg";
-import image3 from "../../assets/images/gallery/image3.jpg";
-import image4 from "../../assets/images/gallery/image4.jpg";
-import image5 from "../../assets/images/gallery/image5.jpg";
-import image6 from "../../assets/images/gallery/image6.jpg";
-import image7 from "../../assets/images/gallery/image7.jpg";
-import image8 from "../../assets/images/gallery/image8.jpg";
-import image9 from "../../assets/images/gallery/graduation.webp";
-import image10 from "../../assets/images/gallery/image10.jpg";
-import image11 from "../../assets/images/gallery/image11.jpg";
-import image12 from "../../assets/images/gallery/image12.jpg";
+import image1 from "../../assets/images/gallery/image1.png";
+import image2 from "../../assets/images/gallery/image2.png";
+import image3 from "../../assets/images/gallery/image3.png";
+import image4 from "../../assets/images/gallery/image1.png";
+import image5 from "../../assets/images/gallery/image2.png";
+import image6 from "../../assets/images/gallery/image3.png";
+import image7 from "../../assets/images/gallery/image1.png";
+import image8 from "../../assets/images/gallery/image2.png";
+import image9 from "../../assets/images/gallery/image3.png";
+import image10 from "../../assets/images/gallery/image1.png";
+import image11 from "../../assets/images/gallery/image2.png";
+import image12 from "../../assets/images/gallery/image3.png";
 
 const Gallery = () => {
   // Define gallery categories

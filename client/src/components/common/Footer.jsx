@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 // Remove this import that's causing errors:
-// import logoImage from "../../assets/images/logo.png";
+import logoImage from "../../assets/images/logo.png";
 
 const Footer = () => {
   return (
@@ -21,11 +21,7 @@ const Footer = () => {
             </h3>
             <div className="flex items-center mb-4">
               {/* Replace with placeholder image */}
-              <img
-                src="https://via.placeholder.com/80"
-                alt="CIVTE Logo"
-                className="h-12 mr-2"
-              />
+              <img src={logoImage} alt="CIVTE Logo" className="h-12 mr-2" />
               <div>
                 <h4 className="font-semibold text-gray-800">
                   Central Institute of

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 // Import the CIVTE logo from Images 1-3 that were provided
 // Remove this import that's causing errors:
-// import logoImage from "../../assets/images/logo.png";
+import logoImage from "../../assets/images/logo.png";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -45,11 +45,6 @@ const Header = () => {
         {/* Top Bar with ISO Certification and Contact */}
         <div className="flex justify-end items-center text-sm mb-2 text-gray-600 font-medium">
           <div className="flex items-center mr-4">
-            <img
-              src="https://via.placeholder.com/40"
-              alt="ISO Certified"
-              className="h-6 mr-1"
-            />
             <span>ISO 9001-2015 Certified</span>
           </div>
           <div className="hidden md:flex items-center">
@@ -68,7 +63,7 @@ const Header = () => {
           <Link to="/" className="flex items-center">
             <motion.img
               // Replace with placeholder image
-              src="https://via.placeholder.com/80"
+              src={logoImage}
               alt="CIVTE Logo"
               className="h-16 md:h-20"
               initial={{ opacity: 0 }}

@@ -5,9 +5,9 @@ import { motion, useInView, useAnimation } from "framer-motion";
 import gsap from "gsap";
 
 // Import images
-import aboutImage from "../../assets/images/about-image.jpg";
+import aboutImage from "../../assets/images/about-image.png";
 import logoImage from "../../assets/images/logo.png";
-import certificationImage from "../../assets/images/iso-certification.jpg";
+import certificationImage from "../../assets/images/iso-certification.png";
 
 const About = () => {
   const controls = useAnimation();

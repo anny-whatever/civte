@@ -220,7 +220,7 @@ const Courses = () => {
               id="entriesPerPage"
               value={entriesPerPage}
               onChange={(e) => setEntriesPerPage(Number(e.target.value))}
-              className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#EC0729] focus:border-[#EC0729]"
+              className="px-6 text-left py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#EC0729] focus:border-[#EC0729]"
             >
               <option value={5}>5</option>
               <option value={10}>10</option>

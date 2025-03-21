@@ -2,6 +2,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import logoImage from "../../assets/images/logo.png";
+import signature from "../../assets/images/signature.png";
+import qr from "../../assets/images/qr.png";
 
 const GetCertificate = () => {
   // State for form data
@@ -49,9 +52,9 @@ const GetCertificate = () => {
           completionDate: "30-06-2024",
           certificateNumber: "CIVTE/DCA/2024/1234",
           grade: "A",
-          verificationQR: "https://via.placeholder.com/150",
-          logo: "https://via.placeholder.com/100",
-          signature: "https://via.placeholder.com/200x50",
+          verificationQR: qr,
+          logo: logoImage,
+          signature: signature,
         },
       });
     } else {
