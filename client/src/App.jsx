@@ -1,6 +1,9 @@
 // src/App.jsx
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
+
+// Import your components
 import Header from "./components/common/Header";
 import Footer from "./components/common/Footer";
 import Home from "./components/pages/Home";
@@ -20,12 +23,29 @@ import StudentLogin from "./components/pages/StudentLogin";
 import ContactUs from "./components/pages/ContactUs";
 
 function App() {
+  // Track if the header is scrolled to apply appropriate class to main
+  const [isHeaderScrolled, setIsHeaderScrolled] = useState(false);
+
+  // Set up scroll listener
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setIsHeaderScrolled(true);
+      } else {
+        setIsHeaderScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <Router>
       <div className="flex flex-col min-h-screen">
         <Header />
         <motion.main
-          className="flex-grow"
+          className={`flex-grow ${isHeaderScrolled ? "header-scrolled" : ""}`}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3 }}

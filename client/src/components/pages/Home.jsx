@@ -68,7 +68,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="pt-24">
+    <div className="pt-20">
       {/* Hero Section */}
       <section
         ref={heroRef}
@@ -120,7 +120,7 @@ const Home = () => {
                 <img
                   src={HeroImage}
                   alt="CIVTE Students"
-                  className="rounded-lg shadow-lg w-full"
+                  className="rounded-lg  w-full"
                 />
                 <div className="absolute top-4 right-4 bg-[#EC0729] text-white py-1 px-3 rounded-full text-sm font-medium">
                   Admissions Open

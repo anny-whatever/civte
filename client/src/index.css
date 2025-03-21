@@ -151,3 +151,63 @@ body {
   opacity: 0;
   transition: opacity 300ms;
 }
+
+/* Add these styles to your index.css */
+/* This ensures proper spacing for pages */
+
+/* Header height management */
+:root {
+  --header-height: 60px; /* Base height for the header */
+  --header-height-scrolled: 40px; /* Height when scrolled */
+}
+
+/* Handle the padding for main content area to prevent overlap with fixed header */
+main {
+  padding-top: var(--header-height);
+}
+
+/* When the header is scrolled and smaller, adjust the padding */
+.header-scrolled main {
+  padding-top: var(--header-height-scrolled);
+}
+
+/* Enhanced dropdown styling */
+.dropdown-menu {
+  transform-origin: top center;
+  animation: dropdown-animation 0.2s ease-out forwards;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+@keyframes dropdown-animation {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Style for dropdown items */
+.dropdown-item {
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.dropdown-item:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background-color: #ec0729;
+  transition: width 0.3s ease;
+}
+
+.dropdown-item:hover:after {
+  width: 100%;
+}
