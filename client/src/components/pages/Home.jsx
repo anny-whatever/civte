@@ -1,5 +1,5 @@
 // src/components/pages/Home.jsx
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, useInView, useAnimation } from "framer-motion";
 import gsap from "gsap";
@@ -22,6 +22,9 @@ import diplomaYoga from "../../assets/images/courses/yoga.png";
 import beautyTherapist from "../../assets/images/courses/beauty-therapist.png";
 
 const Home = () => {
+  // State for carousel version toggle
+  const [carouselVersion, setCarouselVersion] = useState("split");
+
   const controls = useAnimation();
   const statsRef = useRef(null);
   const isInView = useInView(statsRef, { once: true });
@@ -99,103 +102,186 @@ const Home = () => {
     ],
   };
 
-  return (
-    <div className="pt-20">
-      {/* Hero Section */}
-      <section
-        ref={heroRef}
-        className="relative bg-gradient-to-r from-gray-100 to-gray-200 py-16 md:py-24"
-      >
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-center">
-            <div className="md:w-1/2 hero-content">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="mb-8"
-              >
-                <h6 className="text-[#EC0729] font-semibold mb-2">
-                  Government Recognized
-                </h6>
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-                  Central Institute of Vocational & Technical Education
-                </h1>
-                <p className="text-gray-600 mb-6 text-lg">
-                  Building careers through quality education and skill
-                  development for over 23 years
-                </p>
-                <div className="flex flex-wrap gap-4">
-                  <Link
-                    to="/courses"
-                    className="bg-[#EC0729] hover:bg-red-700 text-white font-medium py-3 px-6 rounded-md transition-colors"
-                  >
-                    Explore Courses
-                  </Link>
-                  <Link
-                    to="/student-form"
-                    className="border-2 border-[#EC0729] text-[#EC0729] hover:bg-[#EC0729] hover:text-white font-medium py-3 px-6 rounded-md transition-colors"
-                  >
-                    Apply Now
-                  </Link>
-                </div>
-              </motion.div>
+  // Toggle button for switching carousel versions
+  const ToggleSwitch = () => (
+    <div className="fixed top-24 right-4 z-50 bg-white p-2 rounded-lg shadow-md">
+      <div className="flex items-center justify-between gap-2">
+        <span className="text-xs font-medium">Split</span>
+        <label className="relative inline-flex items-center cursor-pointer">
+          <input
+            type="checkbox"
+            value={carouselVersion}
+            checked={carouselVersion === "full"}
+            onChange={() =>
+              setCarouselVersion(carouselVersion === "split" ? "full" : "split")
+            }
+            className="sr-only peer"
+          />
+          <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[#EC0729]/50 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#EC0729]"></div>
+        </label>
+        <span className="text-xs font-medium">Full</span>
+      </div>
+    </div>
+  );
+
+  // Carousel images array
+  const carouselImages = [
+    { src: CarouselImage1, alt: "CIVTE Image 1" },
+    { src: CarouselImage2, alt: "CIVTE Image 2" },
+    { src: CarouselImage3, alt: "CIVTE Image 3" },
+    { src: CarouselImage4, alt: "CIVTE Image 4" },
+    { src: CarouselImage5, alt: "CIVTE Image 5" },
+  ];
+
+  // Hero section content
+  const HeroContent = () => (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="mb-8"
+    >
+      <h6 className="text-[#EC0729] font-semibold mb-2">
+        Government Recognized
+      </h6>
+      <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+        Central Institute of Vocational & Technical Education
+      </h1>
+      <p className="text-gray-600 mb-6 text-lg">
+        Building careers through quality education and skill development for
+        over 23 years
+      </p>
+      <div className="flex flex-wrap gap-4">
+        <Link
+          to="/courses"
+          className="bg-[#EC0729] hover:bg-red-700 text-white font-medium py-3 px-6 rounded-md transition-colors z-20 relative"
+        >
+          Explore Courses
+        </Link>
+        <Link
+          to="/student-form"
+          className="border-2 border-[#EC0729] text-[#EC0729] hover:bg-[#EC0729] hover:text-white font-medium py-3 px-6 rounded-md transition-colors z-20 relative"
+        >
+          Apply Now
+        </Link>
+      </div>
+    </motion.div>
+  );
+
+  // FullWidthHero: Carousel as background with text overlay
+  const FullWidthHero = () => (
+    <section
+      ref={heroRef}
+      className="relative py-16 md:py-24 min-h-[600px] flex items-center"
+    >
+      {/* Background Carousel */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <Slider {...carouselSettings} className="h-full">
+          {carouselImages.map((image, index) => (
+            <div key={index} className="h-full">
+              <div className="h-full w-full relative">
+                <img
+                  src={image.src}
+                  alt={image.alt}
+                  className="w-full h-full object-contain bg-gray-50"
+                />
+                {/* Gradient overlay for text readability - reduced opacity */}
+                <div className="absolute inset-0 bg-gradient-to-r from-white/60 via-white/40 to-transparent"></div>
+              </div>
             </div>
-            <div className="md:w-1/2 mt-8 md:mt-0">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5, delay: 0.3 }}
-                className="relative"
-              >
-                <div className="absolute -inset-4 rounded-lg bg-[#EC0729]/10 -z-10 animate-pulse"></div>
-                <div className="carousel-container rounded-lg overflow-hidden">
-                  <Slider {...carouselSettings}>
-                    <div className="carousel-slide">
-                      <img
-                        src={CarouselImage1}
-                        alt="CIVTE Image 1"
-                        className="rounded-lg w-full h-64 md:h-80 object-cover"
-                      />
-                    </div>
-                    <div className="carousel-slide">
-                      <img
-                        src={CarouselImage2}
-                        alt="CIVTE Image 2"
-                        className="rounded-lg w-full h-64 md:h-80 object-cover"
-                      />
-                    </div>
-                    <div className="carousel-slide">
-                      <img
-                        src={CarouselImage3}
-                        alt="CIVTE Image 3"
-                        className="rounded-lg w-full h-64 md:h-80 object-cover"
-                      />
-                    </div>
-                    <div className="carousel-slide">
-                      <img
-                        src={CarouselImage4}
-                        alt="CIVTE Image 4"
-                        className="rounded-lg w-full h-64 md:h-80 object-cover"
-                      />
-                    </div>
-                    <div className="carousel-slide">
-                      <img
-                        src={CarouselImage5}
-                        alt="CIVTE Image 5"
-                        className="rounded-lg w-full h-64 md:h-80 object-cover"
-                      />
-                    </div>
+          ))}
+        </Slider>
+      </div>
+
+      {/* Content */}
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="max-w-xl hero-content">
+          <HeroContent />
+        </div>
+      </div>
+
+      {/* Admissions Open Badge */}
+      <div className="absolute top-6 right-6 bg-[#EC0729] text-white py-1 px-3 rounded-full text-sm font-medium z-10">
+        Admissions Open
+      </div>
+    </section>
+  );
+
+  // SplitHero: Left text, right carousel - enhanced version
+  const SplitHero = () => (
+    <section
+      ref={heroRef}
+      className="relative min-h-[650px] flex items-center overflow-hidden"
+    >
+      {/* Left side with subtle gradient background - softened */}
+      <div className="absolute inset-0 bg-gradient-to-r from-white/90 via-gray-50/70 to-transparent z-0"></div>
+
+      <div className="container mx-auto px-4 z-10">
+        <div className="flex flex-col md:flex-row items-center">
+          {/* Text content */}
+          <div className="md:w-1/2 hero-content relative z-20">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.7 }}
+              className="absolute -top-20 -left-20 w-40 h-40 rounded-full bg-[#EC0729]/5 blur-3xl -z-10"
+            ></motion.div>
+            <HeroContent />
+          </div>
+
+          {/* Carousel */}
+          <div className="md:w-1/2 md:absolute md:right-0 md:inset-y-0 md:h-full mt-8 md:mt-0">
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+              className="h-full md:h-full w-full"
+            >
+              {/* Subtle frame for the carousel */}
+              <div className="relative h-full w-full overflow-hidden md:rounded-l-[40px]">
+                {/* Semi-transparent overlay on the left edge to blend with the text section - softened and z-index lowered */}
+                <div className="absolute inset-y-0 left-0 w-[120px] bg-gradient-to-r from-white/40 to-transparent z-5"></div>
+
+                <div className="h-full">
+                  <Slider {...carouselSettings} className="h-full">
+                    {carouselImages.map((image, index) => (
+                      <div
+                        key={index}
+                        className="carousel-slide h-[400px] md:h-[650px]"
+                      >
+                        <img
+                          src={image.src}
+                          alt={image.alt}
+                          className="w-full h-full object-contain bg-gray-50"
+                        />
+                      </div>
+                    ))}
                   </Slider>
                 </div>
-                <div className="absolute top-4 right-4 bg-[#EC0729] text-white py-1 px-3 rounded-full text-sm font-medium z-10">
+
+                {/* Badge positioning moved to be relative to the carousel */}
+                <div className="absolute top-6 right-6 bg-[#EC0729] text-white py-2 px-4 rounded-md shadow-lg text-sm font-medium z-20">
                   Admissions Open
                 </div>
-              </motion.div>
-            </div>
+
+                {/* Decorative elements that integrate with the carousel */}
+                <div className="hidden md:block absolute -bottom-10 -left-10 w-[200px] h-[200px] rounded-full bg-[#EC0729]/10 blur-xl z-5"></div>
+                <div className="hidden md:block absolute -top-20 -right-20 w-[150px] h-[150px] rounded-full bg-[#EC0729]/10 blur-xl z-5"></div>
+              </div>
+            </motion.div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
+  );
+
+  return (
+    <div className="pt-20">
+      {/* Toggle Switch */}
+      <ToggleSwitch />
+
+      {/* Hero Section - conditionally render based on carouselVersion */}
+      {carouselVersion === "full" ? <FullWidthHero /> : <SplitHero />}
 
       {/* About Section */}
       <section className="py-16 bg-white">

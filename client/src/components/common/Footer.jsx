@@ -276,12 +276,12 @@ const Footer = () => {
         <div className="border-t border-gray-200 pt-6 mt-6">
           <div className="bg-[#FEE900] py-4 px-6 rounded-lg">
             <div className="flex flex-col md:flex-row justify-between items-center">
-              <p className="text-gray-800 text-sm mb-2 md:mb-0">
+              <p className="text-gray-800 text-sm mb-2 md:mb-0" s>
                 © {new Date().getFullYear()} Central Institute of Vocational &
                 Technical Education. All Rights Reserved.
               </p>
               <div className="text-gray-800 text-sm">
-                <span>Designed by Team CIVTE</span>
+                <span>Designed by Veloria Studio</span>
               </div>
             </div>
           </div>
