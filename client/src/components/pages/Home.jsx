@@ -23,7 +23,7 @@ import beautyTherapist from "../../assets/images/courses/beauty-therapist.png";
 
 const Home = () => {
   // State for carousel version toggle
-  const [carouselVersion, setCarouselVersion] = useState("split");
+  const [carouselVersion, setCarouselVersion] = useState("full");
 
   const controls = useAnimation();
   const statsRef = useRef(null);
@@ -147,7 +147,7 @@ const Home = () => {
       <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
         Central Institute of Vocational & Technical Education
       </h1>
-      <p className="text-gray-600 mb-6 text-lg">
+      <p className="text-gray-900 mb-6 text-xl">
         Building careers through quality education and skill development for
         over 23 years
       </p>
@@ -185,18 +185,22 @@ const Home = () => {
                   alt={image.alt}
                   className="w-full h-full object-contain bg-gray-50"
                 />
-                {/* Gradient overlay for text readability - reduced opacity */}
-                <div className="absolute inset-0 bg-gradient-to-r from-white/60 via-white/40 to-transparent"></div>
+                {/* Enhanced gradient overlay for better text visibility */}
+                <div className="absolute inset-0 bg-gradient-to-r from-white/85 via-white/65 to-transparent"></div>
               </div>
             </div>
           ))}
         </Slider>
       </div>
 
-      {/* Content */}
+      {/* Content with enhanced visibility */}
       <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-xl hero-content">
-          <HeroContent />
+        <div className="max-w-xl hero-content relative">
+          {/* Semi-transparent backdrop for better text readability */}
+          <div className="absolute -left-6 -top-6 -right-6 -bottom-6 bg-white/40 backdrop-blur-sm rounded-lg z-0"></div>
+          <div className="relative z-10">
+            <HeroContent />
+          </div>
         </div>
       </div>
 
