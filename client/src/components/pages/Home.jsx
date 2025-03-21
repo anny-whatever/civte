@@ -3,7 +3,17 @@ import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion, useInView, useAnimation } from "framer-motion";
 import gsap from "gsap";
-import HeroImage from "../../assets/images/hero-image.png";
+// Import Slider from react-slick
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+// Import Carousel Images
+import CarouselImage1 from "../../assets/images/carousel/image1.png";
+import CarouselImage2 from "../../assets/images/carousel/image2.png";
+import CarouselImage3 from "../../assets/images/carousel/image3.png";
+import CarouselImage4 from "../../assets/images/carousel/image4.png";
+import CarouselImage5 from "../../assets/images/carousel/image5.png";
 
 // Import Course Images
 import diplomaDataEntry from "../../assets/images/courses/data-entry.png";
@@ -67,6 +77,28 @@ const Home = () => {
     }
   }, []);
 
+  // Carousel settings
+  const carouselSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 4000,
+    pauseOnHover: true,
+    fade: true,
+    cssEase: "cubic-bezier(0.7, 0, 0.3, 1)",
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          arrows: false,
+        },
+      },
+    ],
+  };
+
   return (
     <div className="pt-20">
       {/* Hero Section */}
@@ -117,12 +149,46 @@ const Home = () => {
                 className="relative"
               >
                 <div className="absolute -inset-4 rounded-lg bg-[#EC0729]/10 -z-10 animate-pulse"></div>
-                <img
-                  src={HeroImage}
-                  alt="CIVTE Students"
-                  className="rounded-lg  w-full"
-                />
-                <div className="absolute top-4 right-4 bg-[#EC0729] text-white py-1 px-3 rounded-full text-sm font-medium">
+                <div className="carousel-container rounded-lg overflow-hidden">
+                  <Slider {...carouselSettings}>
+                    <div className="carousel-slide">
+                      <img
+                        src={CarouselImage1}
+                        alt="CIVTE Image 1"
+                        className="rounded-lg w-full h-64 md:h-80 object-cover"
+                      />
+                    </div>
+                    <div className="carousel-slide">
+                      <img
+                        src={CarouselImage2}
+                        alt="CIVTE Image 2"
+                        className="rounded-lg w-full h-64 md:h-80 object-cover"
+                      />
+                    </div>
+                    <div className="carousel-slide">
+                      <img
+                        src={CarouselImage3}
+                        alt="CIVTE Image 3"
+                        className="rounded-lg w-full h-64 md:h-80 object-cover"
+                      />
+                    </div>
+                    <div className="carousel-slide">
+                      <img
+                        src={CarouselImage4}
+                        alt="CIVTE Image 4"
+                        className="rounded-lg w-full h-64 md:h-80 object-cover"
+                      />
+                    </div>
+                    <div className="carousel-slide">
+                      <img
+                        src={CarouselImage5}
+                        alt="CIVTE Image 5"
+                        className="rounded-lg w-full h-64 md:h-80 object-cover"
+                      />
+                    </div>
+                  </Slider>
+                </div>
+                <div className="absolute top-4 right-4 bg-[#EC0729] text-white py-1 px-3 rounded-full text-sm font-medium z-10">
                   Admissions Open
                 </div>
               </motion.div>
