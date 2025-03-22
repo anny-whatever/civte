@@ -10,6 +10,12 @@ const Header = () => {
   const [franchiseDropdownOpen, setFranchiseDropdownOpen] = useState(false);
   const [studentDropdownOpen, setStudentDropdownOpen] = useState(false);
 
+  // Mobile accordion state
+  const [mobileDropdowns, setMobileDropdowns] = useState({
+    franchise: false,
+    student: false,
+  });
+
   // Handle scroll events to add shadow and reduce padding when scrolling
   useEffect(() => {
     const handleScroll = () => {
@@ -37,6 +43,14 @@ const Header = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Toggle mobile accordion dropdown
+  const toggleMobileDropdown = (dropdown) => {
+    setMobileDropdowns((prev) => ({
+      ...prev,
+      [dropdown]: !prev[dropdown],
+    }));
+  };
+
   // Navigation links structured according to the requirements
   const navLinks = [
     { name: "Home", path: "/" },
@@ -46,11 +60,7 @@ const Header = () => {
     {
       name: "Franchise",
       isDrop: true,
-      isOpen: franchiseDropdownOpen,
-      setOpen: () => {
-        setFranchiseDropdownOpen(!franchiseDropdownOpen);
-        setStudentDropdownOpen(false);
-      },
+      id: "franchise",
       dropItems: [
         { name: "Apply for Franchise", path: "/franchisee-form" },
         { name: "Franchise Verification", path: "/franchise-verify" },
@@ -61,11 +71,7 @@ const Header = () => {
     {
       name: "Student",
       isDrop: true,
-      isOpen: studentDropdownOpen,
-      setOpen: () => {
-        setStudentDropdownOpen(!studentDropdownOpen);
-        setFranchiseDropdownOpen(false);
-      },
+      id: "student",
       dropItems: [
         { name: "Online Admission", path: "/student-form" },
         { name: "Enrollment Verification", path: "/enrollment-verification" },
@@ -77,6 +83,18 @@ const Header = () => {
     },
     { name: "Contact Us", path: "/contact-us" },
   ];
+
+  // For desktop: Toggle franchise dropdown
+  const toggleFranchiseDropdown = () => {
+    setFranchiseDropdownOpen(!franchiseDropdownOpen);
+    setStudentDropdownOpen(false);
+  };
+
+  // For desktop: Toggle student dropdown
+  const toggleStudentDropdown = () => {
+    setStudentDropdownOpen(!studentDropdownOpen);
+    setFranchiseDropdownOpen(false);
+  };
 
   return (
     <header
@@ -110,7 +128,6 @@ const Header = () => {
               transition={{ duration: 0.5 }}
               className="h-12 md:h-20 w-12 md:w-20 rounded-full bg-gray-200 flex items-center justify-center mr-2 overflow-hidden"
             >
-              {/* Logo with fixed aspect ratio */}
               <img
                 src={imageLogo}
                 alt="CIVTE Logo"
@@ -135,13 +152,21 @@ const Header = () => {
                 link.isDrop ? (
                   <li key={link.name} className="relative dropdown-wrapper">
                     <button
-                      onClick={link.setOpen}
+                      onClick={
+                        link.name === "Franchise"
+                          ? toggleFranchiseDropdown
+                          : toggleStudentDropdown
+                      }
                       className="px-3 py-2 rounded-md text-sm font-medium hover:bg-[#EC0729] hover:text-white transition-colors flex items-center h-full"
                     >
                       {link.name}
                       <svg
                         className={`ml-1 h-4 w-4 transition-transform ${
-                          link.isOpen ? "rotate-180" : ""
+                          (link.name === "Franchise" &&
+                            franchiseDropdownOpen) ||
+                          (link.name === "Student" && studentDropdownOpen)
+                            ? "rotate-180"
+                            : ""
                         }`}
                         fill="none"
                         stroke="currentColor"
@@ -156,14 +181,18 @@ const Header = () => {
                         />
                       </svg>
                     </button>
-                    {link.isOpen && (
+                    {((link.name === "Franchise" && franchiseDropdownOpen) ||
+                      (link.name === "Student" && studentDropdownOpen)) && (
                       <div className="absolute right-0 mt-2 w-56 bg-white rounded-md shadow-lg overflow-hidden z-50 py-1">
                         {link.dropItems.map((item) => (
                           <Link
                             key={item.name}
                             to={item.path}
                             className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#EC0729] hover:text-white transition-colors"
-                            onClick={() => link.setOpen(false)}
+                            onClick={() => {
+                              setFranchiseDropdownOpen(false);
+                              setStudentDropdownOpen(false);
+                            }}
                           >
                             {item.name}
                           </Link>
@@ -232,7 +261,7 @@ const Header = () => {
           </button>
         </div>
 
-        {/* Mobile Navigation Menu */}
+        {/* ACCORDION-STYLE Mobile Navigation Menu */}
         {isOpen && (
           <motion.nav
             className="lg:hidden mt-4 pb-4"
@@ -241,17 +270,38 @@ const Header = () => {
             transition={{ duration: 0.3 }}
           >
             <ul className="space-y-1">
-              {navLinks.map((link) =>
-                link.isDrop ? (
-                  <li key={link.name} className="space-y-1">
+              {/* Regular links */}
+              {navLinks
+                .filter((link) => !link.isDrop)
+                .map((link) => (
+                  <li key={link.name}>
+                    <Link
+                      to={link.path}
+                      className="block px-3 py-3 rounded-md text-base font-medium hover:bg-[#EC0729] hover:text-white transition-colors"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                ))}
+
+              {/* Dropdown links with accordion style */}
+              {navLinks
+                .filter((link) => link.isDrop)
+                .map((link) => (
+                  <li
+                    key={link.name}
+                    className="border-t border-gray-100 first:border-t-0"
+                  >
+                    {/* Accordion header */}
                     <button
-                      onClick={link.setOpen}
-                      className="w-full flex justify-between items-center px-3 py-2 rounded-md text-base font-medium hover:bg-[#EC0729] hover:text-white transition-colors"
+                      onClick={() => toggleMobileDropdown(link.id)}
+                      className="flex justify-between items-center w-full px-3 py-3 text-base font-medium text-left hover:bg-gray-50 focus:outline-none transition-colors"
                     >
                       <span>{link.name}</span>
                       <svg
-                        className={`ml-1 h-4 w-4 transition-transform ${
-                          link.isOpen ? "rotate-180" : ""
+                        className={`w-5 h-5 text-gray-500 transition-transform duration-200 ${
+                          mobileDropdowns[link.id] ? "rotate-180" : ""
                         }`}
                         fill="none"
                         stroke="currentColor"
@@ -261,42 +311,43 @@ const Header = () => {
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          strokeWidth={2}
+                          strokeWidth="2"
                           d="M19 9l-7 7-7-7"
-                        />
+                        ></path>
                       </svg>
                     </button>
-                    {link.isOpen && (
-                      <div className="pl-4 space-y-1 border-l-2 border-gray-200 ml-3">
-                        {link.dropItems.map((item) => (
-                          <Link
-                            key={item.name}
-                            to={item.path}
-                            className="block px-3 py-2 rounded-md text-base font-medium hover:bg-[#EC0729] hover:text-white transition-colors"
-                            onClick={() => setIsOpen(false)}
-                          >
-                            {item.name}
-                          </Link>
-                        ))}
-                      </div>
+
+                    {/* Accordion content */}
+                    {mobileDropdowns[link.id] && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        transition={{ duration: 0.2 }}
+                        className="bg-gray-50"
+                      >
+                        <ul className="py-2 pl-6 border-l-2 border-gray-200 ml-3">
+                          {link.dropItems.map((item) => (
+                            <li key={item.name}>
+                              <Link
+                                to={item.path}
+                                className="block px-3 py-2 text-base text-gray-700 hover:text-[#EC0729] transition-colors"
+                                onClick={() => setIsOpen(false)}
+                              >
+                                {item.name}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </motion.div>
                     )}
                   </li>
-                ) : (
-                  <li key={link.name}>
-                    <Link
-                      to={link.path}
-                      className="block px-3 py-2 rounded-md text-base font-medium hover:bg-[#EC0729] hover:text-white transition-colors"
-                      onClick={() => setIsOpen(false)}
-                    >
-                      {link.name}
-                    </Link>
-                  </li>
-                )
-              )}
-              <li>
+                ))}
+
+              {/* Login button */}
+              <li className="mt-2 pt-2 border-t border-gray-100">
                 <Link
                   to="/student-login"
-                  className="block px-3 py-2 rounded-md text-base font-medium bg-[#EC0729] text-white hover:bg-red-700 transition-colors"
+                  className="block px-3 py-3 rounded-md font-medium bg-[#EC0729] text-white hover:bg-red-700 transition-colors text-center"
                   onClick={() => setIsOpen(false)}
                 >
                   Login
